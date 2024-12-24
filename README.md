@@ -156,7 +156,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any questions or suggestions, please feel free to reach out:
 - Project Link: [https://github.com/bachiriy/codeQuest-filRouge](https://github.com/bachiriy/codeQuest-filRouge)
-- Email: [https://mebashiry@gmail.com](https://mebashiry@gmail.com)
+- Email: [mailto:mebashiry@gmail.com](mebashiry@gmail.com)
 
 ---
 ⭐️ If you found this project helpful, please give it a star on GitHub!
