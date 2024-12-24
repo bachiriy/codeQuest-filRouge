@@ -2,7 +2,7 @@
 
 A gamified programming learning platform where users can solve coding challenges, compete with others, and track their progress in programming skills.
 
-## 📋 Table of Contents
+## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
 - [Technologies](#technologies)
@@ -13,11 +13,11 @@ A gamified programming learning platform where users can solve coding challenges
 - [Contributing](#contributing)
 - [License](#license)
 
-## 🎯 Overview
+## Overview
 
 Code Quest is an interactive platform designed to help users improve their programming skills through challenges, competitions, and social learning. Users can solve coding problems, participate in competitions, join groups, and track their progress.
 
-## ✨ Features
+## Features
 
 ### User Management
 - User registration and authentication
@@ -58,7 +58,7 @@ Code Quest is an interactive platform designed to help users improve their progr
 - Ionic Framework
 - Cypress for testing
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 ```bash
@@ -96,7 +96,7 @@ npm install
 ionic serve
 ```
 
-## 📁 Project Structure
+## Project Structure
 ```
 code-quest/
 ├── api/
@@ -115,7 +115,7 @@ code-quest/
 └── README.md
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Backend Tests
 ```bash
@@ -130,7 +130,7 @@ ng test
 ng e2e
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -138,7 +138,7 @@ ng e2e
 4. Push to the branch
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
@@ -146,16 +146,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Mohammed El Bachiri** - *Initial work*
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Thanks to all contributors who helped with this project
 - Inspired by platforms like LeetCode and HackerRank
 - Special thanks to the Angular and Spring Boot communities
 
-## 📞 Contact
+## Contact
 
 For any questions or suggestions, please feel free to reach out:
 - Project Link: [https://github.com/bachiriy/codeQuest-filRouge](https://github.com/bachiriy/codeQuest-filRouge)
+- Email: [https://mebashiry@gmail.com](https://mebashiry@gmail.com)
 
 ---
 ⭐️ If you found this project helpful, please give it a star on GitHub!
