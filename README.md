@@ -160,3 +160,6 @@ For any questions or suggestions, please feel free to reach out:
 
 ---
 ⭐️ If you found this project helpful, please give it a star on GitHub!
+
+### Figma
+[Figma Link](https://www.figma.com/design/AxH4ZBjbD0QeKUkgs0tWEu/Code-Quest?node-id=0-1&t=hTEUo5H5Evd5BG4T-1)
