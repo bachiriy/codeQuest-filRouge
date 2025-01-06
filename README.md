@@ -163,4 +163,5 @@ For any questions or suggestions, please feel free to reach out:
 
 ### Figma
 [Figma Link](https://www.figma.com/design/AxH4ZBjbD0QeKUkgs0tWEu/Code-Quest?node-id=0-1&t=hTEUo5H5Evd5BG4T-1)
+### UML
 [UML Lucid Link](https://lucid.app/lucidchart/5dcd177b-7222-46d3-a15d-1c8e41fffada/edit?viewport_loc=-2952%2C-1052%2C6336%2C3141%2C0_0&invitationId=inv_a85aebd7-f930-460b-995d-c0850d7c5e99)
