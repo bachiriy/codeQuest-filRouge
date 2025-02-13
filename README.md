@@ -156,7 +156,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any questions or suggestions, please feel free to reach out:
 - Project Link: [https://github.com/bachiriy/codeQuest-filRouge](https://github.com/bachiriy/codeQuest-filRouge)
-- Email: [mailto:mebashiry@gmail.com](mebashiry@gmail.com)
+- Email: [mebashiry@gmail.com](mailto:mebashiry@gmail.com)
 
 ---
 ⭐️ If you found this project helpful, please give it a star on GitHub!
+
+### Figma
+[Figma Link](https://www.figma.com/design/AxH4ZBjbD0QeKUkgs0tWEu/Code-Quest?node-id=0-1&t=hTEUo5H5Evd5BG4T-1)
+### UML
+[UML Lucid Link](https://lucid.app/lucidchart/5dcd177b-7222-46d3-a15d-1c8e41fffada/edit?viewport_loc=-2952%2C-1052%2C6336%2C3141%2C0_0&invitationId=inv_a85aebd7-f930-460b-995d-c0850d7c5e99)
+### Cahier De Charge
+[Caher De Charge link](https://docs.google.com/document/d/1WXUcc49OpQ-MZNlmTE7ZIOJzDN2WA0uzX78XgBRN6Wg/edit?usp=sharing)
+### Jira 
+[Jira Link](https://mohammedelbachiri945.atlassian.net/jira/software/projects/CQ/list?atlOrigin=eyJpIjoiZThmMWY3MGU2NTlhNDI1MmIwOWVkNTBmNmZkMmMzMjgiLCJwIjoiaiJ9)
