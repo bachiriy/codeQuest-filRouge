@@ -1,0 +1,10 @@
+spring.datasource.url=jdbc:mariadb://localhost:3306/yougame
+spring.datasource.username=root
+spring.datasource.password=password
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+# This setting means that our project will drop all the tables
+# every time we run. Great for prototyping.
+spring.jpa.hibername.ddl-auto=create-drop
+# We have metadata to support these in another file.
+my-project.default-username=default-username
+my-project.default-password=default-password
