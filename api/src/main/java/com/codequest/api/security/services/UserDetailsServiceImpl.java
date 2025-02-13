@@ -1,4 +1,4 @@
-package com.melodyguard.api.security.services;
+package com.codequest.api.security.services;
 
 import java.util.stream.Collectors;
 
@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.melodyguard.api.model.User;
-import com.melodyguard.api.repository.UserRepository;
+import com.codequest.api.model.User;
+import com.codequest.api.repository.UserRepository;
 
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {

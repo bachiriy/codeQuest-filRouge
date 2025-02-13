@@ -1,4 +1,4 @@
-package com.melodyguard.api.security.jwt;
+package com.codequest.api.security.jwt;
 
 
 import org.springframework.security.core.AuthenticationException;

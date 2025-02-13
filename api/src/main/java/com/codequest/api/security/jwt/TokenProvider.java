@@ -1,4 +1,4 @@
-package com.melodyguard.api.security.jwt;
+package com.codequest.api.security.jwt;
 
 import java.security.Key;
 import java.util.Date;
