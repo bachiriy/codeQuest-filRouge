@@ -1,0 +1,14 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/bachiriy/EasyBank
+          # for offline use
+          # uri: /home/...path_to.../EasyBank
+          search-paths: configurations
+          clone-on-start: true
