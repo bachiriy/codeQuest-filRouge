@@ -1,8 +1,9 @@
 package com.codequest.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -15,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -39,7 +39,6 @@ public class User {
     private Long id;
 
     @Column(name = "first_name", nullable = false)
-    // @NotNull(message = "USER_ENTITY: first_name cannot be null")
     private String firstName;
 
     @Column(name = "last_name")
@@ -49,23 +48,21 @@ public class User {
     private String phone;
 
     @Column(name = "email", nullable = false, unique = true)
-    // @NotNull(message = "USER_ENTITY: email cannot be null")
     private String email;
 
     @Column(name = "password", nullable = false)
-    // @NotNull(message = "USER_ENTITY: password cannot be null")
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles;
 
     private Boolean enable;
 
 
     private String profilePicture;
     private String biography;
-    private Integer points = 0;
+    private Integer points;
 
     @CreatedDate
     @Setter @Getter
@@ -73,5 +70,15 @@ public class User {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+
+
+    @ManyToMany
+    @JoinTable(
+        name = "user_friends",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private Set<User> friends = new HashSet<>();
 
 }

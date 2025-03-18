@@ -42,7 +42,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<Response> getAll(Integer page, Integer size) {
-	Pageable pageable = PageRequest.of(page, size);
+	Pageable pageable = PageRequest.of(page - 1, size);
 
 	List<User> users = repository.findAll(pageable).getContent();
 

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     List<Challenge> findByDifficulty(DifficultyLevel difficulty);
+    boolean existsByTitleAndDescriptionAndDifficulty(String title, String description, DifficultyLevel difficulty);
 } 
