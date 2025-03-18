@@ -1,5 +1,6 @@
 package com.codequest.dto.challenge;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Builder;
@@ -17,12 +18,16 @@ public class ChallengeRequest {
     @NotNull(message = "Description is required")
     private String description;
 
-    @NotNull(message = "Difficulty is required")
+    @NotNull(message = "Points is required")
+    private String points;
+
+    @NotNull(message = "Difficulty is required(EASY, MEDIUM, HARD, EXPERT)")
     private DifficultyLevel difficulty;
 
     @NotNull(message = "Supported Languages is required")
-    private List<String> supportedLanguages;
+    private List<String> supported_languages;
 
-    @NotNull(message = "Test Cases is required")
+    @NotNull(message = "Must include test cases")
+    @Valid
     private List<TestCaseRequest> test_cases;
 }

@@ -2,10 +2,10 @@ package com.codequest.exception;
 
 public class CustomDuplicateKeyException extends RuntimeException {
     public CustomDuplicateKeyException() {
-	super();
+	    super();
     }
 
     public CustomDuplicateKeyException(String msg) {
-	super(msg);
+	    super(msg);
     }
 }

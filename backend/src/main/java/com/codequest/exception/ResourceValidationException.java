@@ -2,14 +2,12 @@ package com.codequest.exception;
 
 public class ResourceValidationException extends RuntimeException {
 
-    private String message;
 
     public ResourceValidationException() {
-	super();
+	    super();
     }
 
     public ResourceValidationException(String message) {
-	super(message);
-	this.message = message;
+	    super(message);
     }
 }

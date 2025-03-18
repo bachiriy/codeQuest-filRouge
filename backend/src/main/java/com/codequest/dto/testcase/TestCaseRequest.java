@@ -12,9 +12,6 @@ public class TestCaseRequest {
     @NotNull(message = "Expected Output is required")
     private String expected_output;
 
-    @NotNull(message = "Challenge ID is required")
-    private Long challenge_id;
-
     @NotNull(message = "Must say if hiddern")
-    private boolean is_hidden;
+    private boolean hidden;
 }

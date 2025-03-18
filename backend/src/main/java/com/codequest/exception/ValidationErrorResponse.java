@@ -14,6 +14,6 @@ public class ValidationErrorResponse {
     private Map<String, String> errors = new HashMap<>();
 
     public void addError(String field, String message) {
-	errors.put(field, message);
+	    errors.put(field, message);
     }
 }

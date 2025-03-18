@@ -15,12 +15,18 @@ public interface TestCaseMapper {
     List<TestCaseResponse> map(List<TestCase> testCases);
 
     @Mapping(target = "expectedOutput", source = "expected_output")
-    @Mapping(target = "hidden", source = "_hidden")
+    @Mapping(target = "challenge", ignore = true)
+    @Mapping(target = "isHidden", source = "hidden")
+    @Mapping(target = "id", ignore = true)
     TestCase requestToTestCase(TestCaseRequest request);
 
     default TestCaseResponse map(TestCase testCase) {
         return TestCaseResponse
-                    .builder()
+                .builder()
+                    .id(testCase.getId())
+                    .input(testCase.getInput())
+                    .expected_output(testCase.getExpectedOutput())
+                    .hidden(testCase.isHidden())
             .build();
     }
 }

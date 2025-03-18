@@ -9,5 +9,6 @@ public interface ChallengeService {
     List<ChallengeResponse> getAllChallenges(Integer page, Integer size);
     ChallengeResponse getChallengeById(Long id);
     ChallengeResponse updateChallenge(Long id, ChallengeRequest request);
-    ChallengeResponse deleteChallenge(Long id);
+    String deleteChallenge(Long id);
+    ChallengeResponse createChallenge(ChallengeRequest request);
 }

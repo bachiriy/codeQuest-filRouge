@@ -9,6 +9,5 @@ public class TestCaseResponse {
     private Long id;
     private String input;
     private String expected_output;
-    private Long challenge_id;
-    private boolean is_hidden;
+    private boolean hidden;
 }
