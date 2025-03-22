@@ -1,0 +1,246 @@
+    <div class="p-4 md:p-6">
+      <h1 class="text-2xl font-bold text-white mb-6">Dashboard</h1>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- User Stats Card -->
+        <div class="bg-[#1c2128] border border-gray-700 rounded-lg shadow-md p-6">
+          <div class="flex items-center space-x-4 mb-6">
+            <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">
+              {{ (user$ | async)?.username?.charAt(0) | uppercase }}
+            </div>
+            <div>
+              <h2 class="text-lg font-medium text-white">{{ (user$ | async)?.username }}</h2>
+              <p class="text-sm text-gray-400">Member since {{ (user$ | async)?.joinDate | date }}</p>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Challenges Completed</span>
+              <span class="text-white font-medium">{{ (user$ | async)?.stats?.challengesCompleted || 0 }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Current Rank</span>
+              <span class="text-white font-medium">#{{ (user$ | async)?.stats?.rank || 0 }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">XP Points</span>
+              <span class="text-white font-medium">{{ (user$ | async)?.stats?.xpPoints || 0 }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Favorite Language</span>
+              <span class="text-white font-medium">{{ (user$ | async)?.stats?.favoriteLanguage || 'None' }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Progress Card -->
+        <div class="bg-[#1c2128] border border-gray-700 rounded-lg shadow-md p-6">
+          <h2 class="text-lg font-medium text-white mb-4">Your Progress</h2>
+          
+          <div class="space-y-6">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm text-gray-300">Easy Challenges</span>
+                <span class="text-sm text-gray-300">65%</span>
+              </div>
+              <div class="w-full bg-gray-700 rounded-full h-2">
+                <div class="bg-green-500 h-2 rounded-full" style="width: 65%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm text-gray-300">Medium Challenges</span>
+                <span class="text-sm text-gray-300">42%</span>
+              </div>
+              <div class="w-full bg-gray-700 rounded-full h-2">
+                <div class="bg-yellow-500 h-2 rounded-full" style="width: 42%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm text-gray-300">Hard Challenges</span>
+                <span class="text-sm text-gray-300">18%</span>
+              </div>
+              <div class="w-full bg-gray-700 rounded-full h-2">
+                <div class="bg-red-500 h-2 rounded-full" style="width: 18%"></div>
+              </div>
+            </div>
+            
+            <div class="pt-2">
+              <a routerLink="/challenges" class="text-blue-400 hover:text-blue-300 text-sm font-medium">
+                View all challenges →
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Achievements Card -->
+        <div class="bg-[#1c2128] border border-gray-700 rounded-lg shadow-md p-6">
+          <h2 class="text-lg font-medium text-white mb-4">Recent Achievements</h2>
+          
+          <div class="space-y-4">
+            <div class="flex items-center space-x-3">
+              <div class="bg-yellow-500/20 p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="7"></circle>
+                  <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div class="text-white font-medium">First Blood</div>
+                <div class="text-sm text-gray-400">Solved your first challenge</div>
+              </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+              <div class="bg-blue-500/20 p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="text-white font-medium">Consistent Learner</div>
+                <div class="text-sm text-gray-400">7 day streak completed</div>
+              </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+              <div class="bg-green-500/20 p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="text-white font-medium">Algorithm Master</div>
+                <div class="text-sm text-gray-400">Completed 10 algorithm challenges</div>
+              </div>
+            </div>
+            
+            <div class="pt-2">
+              <a href="#" class="text-blue-400 hover:text-blue-300 text-sm font-medium">
+                View all achievements →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent Activity and Recommended Challenges -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <!-- Recent Activity -->
+        <div class="bg-[#1c2128] border border-gray-700 rounded-lg shadow-md p-6">
+          <h2 class="text-lg font-medium text-white mb-4">Recent Activity</h2>
+          
+          <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+              <div class="mt-1 bg-blue-500/20 p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div class="text-white font-medium">Completed "Two Sum" Challenge</div>
+                <div class="text-sm text-gray-400">3 hours ago</div>
+              </div>
+            </div>
+            
+            <div class="flex items-start space-x-3">
+              <div class="mt-1 bg-green-500/20 p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="text-white font-medium">Earned "Algorithm Master" Badge</div>
+                <div class="text-sm text-gray-400">Yesterday</div>
+              </div>
+            </div>
+            
+            <div class="flex items-start space-x-3">
+              <div class="mt-1 bg-purple-500/20 p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="text-white font-medium">Added coding_master as a friend</div>
+                <div class="text-sm text-gray-400">2 days ago</div>
+              </div>
+            </div>
+            
+            <div class="flex items-start space-x-3">
+              <div class="mt-1 bg-yellow-500/20 p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="text-white font-medium">Started 7-day streak</div>
+                <div class="text-sm text-gray-400">1 week ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recommended Challenges -->
+        <div class="bg-[#1c2128] border border-gray-700 rounded-lg shadow-md p-6">
+          <h2 class="text-lg font-medium text-white mb-4">Recommended Challenges</h2>
+          
+          <div class="space-y-4">
+            <div class="p-4 bg-[#0d1117] rounded-md border border-gray-700 hover:border-blue-500 transition">
+              <div class="flex justify-between items-center mb-2">
+                <span class="font-medium text-white">Valid Parentheses</span>
+                <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Easy</span>
+              </div>
+              <p class="text-sm text-gray-400 mb-3 line-clamp-2">
+              Given a string containing just the characters '(', ')', {{ (" '{',  '}', ")}}'[' and ']', determine if the input string is valid.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs text-gray-500">Completion rate: 68%</span>
+                </div>
+                <a routerLink="/challenges/2" class="text-blue-400 hover:text-blue-300 text-sm">Solve →</a>
+              </div>
+            </div>
+            
+            <div class="p-4 bg-[#0d1117] rounded-md border border-gray-700 hover:border-blue-500 transition">
+              <div class="flex justify-between items-center mb-2">
+                <span class="font-medium text-white">Longest Substring Without Repeating Characters</span>
+                <span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full">Medium</span>
+              </div>
+              <p class="text-sm text-gray-400 mb-3 line-clamp-2">
+                Given a string s, find the length of the longest substring without repeating characters.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs text-gray-500">Completion rate: 52%</span>
+                </div>
+                <a routerLink="/challenges/3" class="text-blue-400 hover:text-blue-300 text-sm">Solve →</a>
+              </div>
+            </div>
+            
+            <div class="p-4 bg-[#0d1117] rounded-md border border-gray-700 hover:border-blue-500 transition">
+              <div class="flex justify-between items-center mb-2">
+                <span class="font-medium text-white">Median of Two Sorted Arrays</span>
+                <span class="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded-full">Hard</span>
+              </div>
+              <p class="text-sm text-gray-400 mb-3 line-clamp-2">
+                Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs text-gray-500">Completion rate: 32%</span>
+                </div>
+                <a routerLink="/challenges/6" class="text-blue-400 hover:text-blue-300 text-sm">Solve →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

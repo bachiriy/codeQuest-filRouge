@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+@layer base {
+  body {
+    @apply antialiased;
+  }
+
+  h1 {
+    @apply text-3xl font-bold md:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl font-bold md:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl font-bold md:text-2xl;
+  }
+
+  h4 {
+    @apply text-lg font-bold md:text-xl;
+  }
+
+  a {
+    @apply text-primary-400 hover:text-primary-300 transition-colors;
+  }
+}
+
+/* Custom component classes */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary-600 text-white hover:bg-secondary-700;
+  }
+
+  .btn-outline {
+    @apply btn border border-gray-700 hover:bg-gray-800;
+  }
+
+  .btn-ghost {
+    @apply btn hover:bg-gray-800;
+  }
+
+  .btn-danger {
+    @apply btn bg-danger text-white hover:bg-red-600;
+  }
+
+  .card {
+    @apply rounded-lg border border-gray-800 bg-background-900 p-6 shadow-md;
+  }
+
+  .form-input {
+    @apply block w-full rounded-md border border-gray-700 bg-background-800 px-4 py-2 text-gray-100 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500;
+  }
+
+  .form-label {
+    @apply mb-2 block text-sm font-medium text-gray-300;
+  }
+
+  .form-error {
+    @apply mt-1 text-sm text-danger;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-900 text-primary-300;
+  }
+
+  .badge-secondary {
+    @apply badge bg-secondary-900 text-secondary-300;
+  }
+
+  .badge-success {
+    @apply badge bg-green-900 text-green-300;
+  }
+
+  .badge-warning {
+    @apply badge bg-amber-900 text-amber-300;
+  }
+
+  .badge-danger {
+    @apply badge bg-red-900 text-red-300;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .code-font {
+    @apply font-mono;
+  }
+}
+
+/* Monaco Editor Overrides */
+.monaco-editor {
+  .monaco-editor-background,
+  .margin-view-overlays {
+    background-color: #0F172A !important; /* Match with background-900 */
+  }
+}
+
