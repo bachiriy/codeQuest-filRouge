@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
+import { LandingComponent } from './features/landing/landing.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/auth/login',
-    pathMatch: 'full'
+    component: LandingComponent
   },
   {
     path: 'auth',
@@ -25,9 +25,5 @@ export const routes: Routes = [
   {
     path: 'leaderboard',
     loadChildren: () => import('./features/leaderboard/leaderboard.routes').then(m => m.LEADERBOARD_ROUTES)
-  },
-  {
-    path: '**',
-    redirectTo: '/auth/login'
   }
 ]; 

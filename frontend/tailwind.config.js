@@ -3,14 +3,19 @@ const { fontFamily } = require("tailwindcss/defaultTheme")
 
 module.exports = {
   darkMode: ["class"],
-  content: ["./src/**/*.{html,ts}", "*.{js,ts,jsx,tsx,mdx}", "app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
+  content: [
+    "./src/**/*.{html,ts}",
+  ],
   theme: {
     extend: {
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          950: '#0d1117',
+        },
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -94,6 +99,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [],
 }
 
