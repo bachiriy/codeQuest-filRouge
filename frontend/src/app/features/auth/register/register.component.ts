@@ -34,19 +34,19 @@ import { selectAuthError, selectAuthLoading } from "../../../core/store/auth/aut
         <div class="bg-[#1c2128] py-8 px-4 shadow-xl sm:rounded-lg sm:px-10 border border-gray-700">
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
             <div>
-              <label for="username" class="block text-sm font-medium text-gray-300">
-                Username
+              <label for="firstName" class="block text-sm font-medium text-gray-300">
+                First Name
               </label>
               <div class="mt-1">
-                <input id="username" name="username" type="text" formControlName="username" required 
+                <input id="firstName" name="firstName" type="text" formControlName="firstName" required 
                   class="appearance-none block w-full px-3 py-3 border border-gray-700 rounded-md 
                   shadow-sm placeholder-gray-500 bg-[#0d1117] text-white
                   focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="Choose a username">
+                  placeholder="Your first name ">
               </div>
-              <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" 
+              <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" 
                 class="text-red-500 text-xs mt-1">
-                Username is required (min 3 characters)
+                First Name is required (min 3 characters)
               </div>
             </div>
           
@@ -114,8 +114,9 @@ import { selectAuthError, selectAuthLoading } from "../../../core/store/auth/aut
               You must accept the terms and conditions
             </div>
   
-            <div *ngIf="error$ | async" class="bg-red-900/50 text-red-300 p-3 rounded-md text-sm">
-              {{ error$ | async }}
+            <div *ngIf="error$ | async as error" 
+              class="bg-red-900/50 text-red-300 p-3 rounded-md text-sm mb-4">
+              {{ error }}
             </div>
   
             <div>
@@ -186,7 +187,7 @@ export class RegisterComponent {
   ) {
     this.registerForm = this.fb.group(
       {
-        username: ["", [Validators.required, Validators.minLength(3)]],
+        firstName: ["", [Validators.required, Validators.minLength(3)]],
         email: ["", [Validators.required, Validators.email]],
         password: ["", [Validators.required, Validators.minLength(6)]],
         confirmPassword: ["", Validators.required],
@@ -207,8 +208,8 @@ export class RegisterComponent {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      const { username, email, password } = this.registerForm.value
-      this.store.dispatch(register({ username, email, password }))
+      const { firstName, email, password } = this.registerForm.value
+      this.store.dispatch(register({ firstName, email, password }))
     } else {
       this.registerForm.markAllAsTouched()
     }

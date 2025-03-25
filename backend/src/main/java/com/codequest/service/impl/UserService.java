@@ -37,57 +37,57 @@ public class UserService implements IUserService {
 
     @Override
     public User getById(Long id) {
-	return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+	    return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override
     public List<Response> getAll(Integer page, Integer size) {
-	Pageable pageable = PageRequest.of(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
 
-	List<User> users = repository.findAll(pageable).getContent();
+        List<User> users = repository.findAll(pageable).getContent();
 
-	return mapper.entitiesToDto(users);
+        return mapper.entitiesToDto(users);
     }
 
     @Override
     public Response update(Long id, Request dto) {
-	User user = getById(id);
+        User user = getById(id);
 
-	user.setFirstName(dto.getFirstName());
-	user.setLastName(dto.getLastName());
-	user.setEmail(dto.getEmail());
-	user.setPhone(dto.getPhone());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+        // user.setPhone(dto.getPhone());
 
-	if (dto.getPassword() != null && dto.getPassword().length() > 0) {
-	    String encodedPass = encoder.encode(dto.getPassword());
-	    user.setPassword(encodedPass);
-	}
+        if (dto.getPassword() != null && dto.getPassword().length() > 0) {
+            String encodedPass = encoder.encode(dto.getPassword());
+            user.setPassword(encodedPass);
+        }
 
-	return mapper.entityToDto(repository.save(user));
+        return mapper.entityToDto(repository.save(user));
     }
 
     @Override
     public GlobalResp delete(Long id) {
-	User user = getById(id);
-	repository.delete(user);
-	return GlobalResp.builder().message("User deleted successfully").build();
+        User user = getById(id);
+        repository.delete(user);
+        return GlobalResp.builder().message("User deleted successfully").build();
     }
 
     @Override
     public Response getDetails(Long id) {
-	User user = getById(id);
-	return mapper.entityToDto(user);
+        User user = getById(id);
+        return mapper.entityToDto(user);
     }
 
     @Override
     public GlobalResp assignRoles(Long id, RolesDto dto) {
-	User user = getById(id);
+        User user = getById(id);
 
-	List<Role> roles = roleRepository.findByNames(dto.getRoles());
-	user.setRoles(roles);
+        List<Role> roles = roleRepository.findByNames(dto.getRoles());
+        user.setRoles(roles);
 
-	repository.save(user);
-	return GlobalResp.builder().message("Roles assigned successfully").build();
+        repository.save(user);
+        return GlobalResp.builder().message("Roles assigned successfully").build();
     }
 
 }

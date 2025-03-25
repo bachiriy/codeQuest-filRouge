@@ -1,5 +1,6 @@
 package com.codequest.seeder;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class RoleSeeder {
     public void seed() {
 		Arrays.stream(ERole.values()).forEach(role -> {
 			if (!roleRepository.existsByName(role)) { // Check if the role already exists
-			Role newRole = Role.builder().name(role).build();
+			Role newRole = Role.builder().createdAt(LocalDateTime.now()).name(role).build();
 			roleRepository.save(newRole);
 			}
 		});

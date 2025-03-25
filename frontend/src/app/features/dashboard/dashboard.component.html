@@ -6,10 +6,10 @@
         <div class="bg-[#1c2128] border border-gray-700 rounded-lg shadow-md p-6">
           <div class="flex items-center space-x-4 mb-6">
             <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">
-              {{ (user$ | async)?.username?.charAt(0) | uppercase }}
+              {{ (user$ | async)?.firstName?.charAt(0) | uppercase }}
             </div>
             <div>
-              <h2 class="text-lg font-medium text-white">{{ (user$ | async)?.username }}</h2>
+              <h2 class="text-lg font-medium text-white">{{ (user$ | async)?.firstName }}</h2>
               <p class="text-sm text-gray-400">Member since {{ (user$ | async)?.joinDate | date }}</p>
             </div>
           </div>

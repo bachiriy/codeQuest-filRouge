@@ -6,24 +6,19 @@ import { selectIsAuthenticated } from '../store/auth/auth.selectors';
 import { AuthService } from '../services/auth.service';
 import { of } from 'rxjs';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const guestGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const authService = inject(AuthService);
 
   return authService.checkAuthStatus().pipe(
     map(user => {
-      if (user) {
+      if (!user) {
         return true;
       }
-      return router.createUrlTree(['/auth/login'], {
-        queryParams: { returnUrl: state.url }
-      });
+      return router.createUrlTree(['/dashboard']);
     }),
     catchError(() => {
-      return of(router.createUrlTree(['/auth/login'], {
-        queryParams: { returnUrl: state.url }
-      }));
+      return of(true);
     })
   );
 };
-

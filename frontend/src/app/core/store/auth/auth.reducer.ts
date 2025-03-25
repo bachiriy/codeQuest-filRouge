@@ -4,7 +4,6 @@ import * as AuthActions from "./auth.actions"
 
 export interface AuthState {
   user: User | null
-  token: string | null
   isAuthenticated: boolean
   loading: boolean
   error: string | null
@@ -12,8 +11,7 @@ export interface AuthState {
 
 export const initialState: AuthState = {
   user: null,
-  token: localStorage.getItem("token"),
-  isAuthenticated: !!localStorage.getItem("token"),
+  isAuthenticated: false,
   loading: false,
   error: null,
 }
@@ -27,22 +25,19 @@ export const authReducer = createReducer(
     error: null,
   })),
 
-  on(AuthActions.loginSuccess, (state, { user, token }) => {
-    localStorage.setItem("token", token)
-    return {
-      ...state,
-      user,
-      token,
-      isAuthenticated: true,
-      loading: false,
-      error: null,
-    }
-  }),
+  on(AuthActions.loginSuccess, (state, { user }) => ({
+    ...state,
+    user,
+    isAuthenticated: true,
+    loading: false,
+    error: null,
+  })),
 
   on(AuthActions.loginFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
+    isAuthenticated: false,
   })),
 
   on(AuthActions.register, (state) => ({
@@ -51,34 +46,27 @@ export const authReducer = createReducer(
     error: null,
   })),
 
-  on(AuthActions.registerSuccess, (state, { user, token }) => {
-    localStorage.setItem("token", token)
-    return {
-      ...state,
-      user,
-      token,
-      isAuthenticated: true,
-      loading: false,
-      error: null,
-    }
-  }),
+  on(AuthActions.registerSuccess, (state, { user }) => ({
+    ...state,
+    user,
+    isAuthenticated: true,
+    loading: false,
+    error: null,
+  })),
 
   on(AuthActions.registerFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
+    isAuthenticated: false,
   })),
 
-  on(AuthActions.logout, (state) => {
-    localStorage.removeItem("token")
-    return {
-      ...state,
-      user: null,
-      token: null,
-      isAuthenticated: false,
-      error: null,
-    }
-  }),
+  on(AuthActions.logout, (state) => ({
+    ...state,
+    user: null,
+    isAuthenticated: false,
+    error: null,
+  })),
 
   on(AuthActions.loadUser, (state) => ({
     ...state,
@@ -89,12 +77,15 @@ export const authReducer = createReducer(
   on(AuthActions.loadUserSuccess, (state, { user }) => ({
     ...state,
     user,
+    isAuthenticated: true,
     loading: false,
     error: null,
   })),
 
   on(AuthActions.loadUserFailure, (state, { error }) => ({
     ...state,
+    user: null,
+    isAuthenticated: false,
     loading: false,
     error,
   })),

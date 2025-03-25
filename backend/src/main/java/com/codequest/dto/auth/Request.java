@@ -22,9 +22,6 @@ public class Request {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "phone")
-    private String phone;
-
     @NotBlank(message = "Email is required")
     @NotNull(message = "Email is required")
     private String email;

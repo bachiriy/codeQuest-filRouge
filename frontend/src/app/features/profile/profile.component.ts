@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Store } from "@ngrx/store"
 import type { Observable } from "rxjs"
 import { selectUser } from "../../core/store/auth/auth.selectors"
 import type { User } from "../../core/models/user.model"
+import { AuthService } from "../../core/services/auth.service"
 
 @Component({
   selector: "app-profile",
@@ -20,9 +21,9 @@ import type { User } from "../../core/models/user.model"
           <div class="bg-[#1c2128] border border-gray-700 rounded-lg shadow-md overflow-hidden">
             <div class="p-6 text-center">
               <div class="w-24 h-24 rounded-full bg-blue-500 flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">
-                {{ user.username.charAt(0) | uppercase }}
+                {{ user.firstName.charAt(0) | uppercase }} {{ user.lastName.charAt(0) | uppercase }}
               </div>
-              <h2 class="text-xl font-bold text-white mb-1">{{ user.username }}</h2>
+              <h2 class="text-xl font-bold text-white mb-1">{{ user.firstName }}</h2>
               <p class="text-gray-400 mb-4">{{ user.email }}</p>
               
               <div class="flex justify-center space-x-3 mb-6">
@@ -292,10 +293,11 @@ import type { User } from "../../core/models/user.model"
     </div>
   `,
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   user$: Observable<User | null>
+  profile$ = this.authService.getProfile();
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private authService: AuthService) {
     this.user$ = this.store.select(selectUser)
   }
 

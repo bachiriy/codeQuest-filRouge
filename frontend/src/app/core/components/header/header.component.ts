@@ -1,7 +1,7 @@
 import { Component } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { RouterModule } from "@angular/router"
-import type { Store } from "@ngrx/store"
+import { Store } from "@ngrx/store"
 import type { Observable } from "rxjs"
 import { selectIsAuthenticated, selectUser } from "../../store/auth/auth.selectors"
 import { logout } from "../../store/auth/auth.actions"
@@ -35,9 +35,9 @@ import type { User } from "../../models/user.model"
           <ng-container *ngIf="isAuthenticated$ | async; else authLinks">
             <div class="relative group">
               <button class="flex items-center space-x-2 py-1 px-3 rounded-full border border-gray-700 hover:bg-gray-700 transition">
-                <span class="text-sm">{{ (user$ | async)?.username }}</span>
+                <span class="text-sm">{{ (user$ | async)?.firstName }}</span>
                 <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                  {{ (user$ | async)?.username?.charAt(0) | uppercase }}
+                  {{ (user$ | async)?.firstName?.charAt(0) | uppercase }}
                 </div>
               </button>
               <div class="absolute right-0 top-full mt-2 w-48 bg-[#1c2128] rounded-md shadow-lg py-1 hidden group-hover:block">

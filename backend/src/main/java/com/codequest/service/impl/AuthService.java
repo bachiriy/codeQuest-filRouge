@@ -1,5 +1,6 @@
 package com.codequest.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,10 @@ import com.codequest.repository.RoleRepository;
 import com.codequest.repository.UserRepository;
 import com.codequest.security.jwt.TokenProvider;
 import com.codequest.service.IAuthService;
+import com.codequest.dto.auth.AuthVerificationResponse;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.GrantedAuthority;
 
 @Service
 public class AuthService implements IAuthService {
@@ -42,6 +47,8 @@ public class AuthService implements IAuthService {
     private TokenProvider jwtUtil;
     @Autowired
     private AuthenticationManager authManager;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -68,6 +75,7 @@ public class AuthService implements IAuthService {
 		User user = mapper.dtoToEntity(dto);
 		logger.info("SOMETHING HERE ");
 		user.setPassword(encodedPass);
+		user.setJoinDate(LocalDateTime.now());
 
 		// Add default USER role
 		List<Role> roles = new ArrayList<Role>();
@@ -140,5 +148,37 @@ public class AuthService implements IAuthService {
 		} catch (Exception e) {
 			return GlobalResp.builder().message("Could not process logout request").build();
 		}
+    }
+
+    @Override
+    public AuthVerificationResponse verifyAuthentication(String token) {
+        if (token == null) {
+            return new AuthVerificationResponse(false, null);
+        }
+
+        try {
+            if (token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+
+            String username = jwtUtil.extractUsername(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            
+            // Validate token with both parameters
+            if (!jwtUtil.validateToken(token, userDetails)) {
+                return new AuthVerificationResponse(false, null);
+            }
+            
+            Response userDto = new Response(
+                userDetails.getUsername(),
+                userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList())
+            );
+            
+            return new AuthVerificationResponse(true, userDto);
+        } catch (Exception e) {
+            return new AuthVerificationResponse(false, null);
+        }
     }
 }

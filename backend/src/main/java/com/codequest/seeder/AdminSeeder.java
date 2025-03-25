@@ -1,5 +1,6 @@
 package com.codequest.seeder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -39,7 +40,7 @@ public class AdminSeeder {
 
 			// Build the admin user
 			User admin = User.builder().firstName("Admin").email("admin@gmail.com").password(encodedPass)
-				.phone("2126000000000").enable(true).roles(roles) // Associate managed roles
+				.joinDate(LocalDateTime.now()).bio("Admin of the website").enable(true).roles(roles) // Associate managed roles
 				.build();
 
 			// Save the admin user

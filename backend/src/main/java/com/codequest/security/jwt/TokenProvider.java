@@ -32,54 +32,54 @@ public class TokenProvider {
     private final Logger logger = Logger.getLogger(TokenProvider.class.getName());
 
     public String extractUsername(String token) {
-	return extractClaims(token, Claims::getSubject);
+	    return extractClaims(token, Claims::getSubject);
     }
 
     public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
-	final Claims claims = extractAllClaims(token);
-	return claimsResolver.apply(claims);
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
     }
 
     public String generateToken(UserDetails userDetails) {
-	Map<String, Object> extractClaims = new HashMap<String, Object>();
+        Map<String, Object> extractClaims = new HashMap<String, Object>();
 
-	extractClaims.put("roles", userDetails.getAuthorities().stream()
-		.map(grantedAuthority -> grantedAuthority.getAuthority()).collect(Collectors.toList()));
+        extractClaims.put("roles", userDetails.getAuthorities().stream()
+            .map(grantedAuthority -> grantedAuthority.getAuthority()).collect(Collectors.toList()));
 
-	return Jwts.builder().setClaims(extractClaims).setSubject(userDetails.getUsername()).setIssuer("AssurTech")
-		.setIssuedAt(new Date(System.currentTimeMillis()))
-		.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
-		.signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
+        return Jwts.builder().setClaims(extractClaims).setSubject(userDetails.getUsername()).setIssuer("AssurTech")
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+            .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-	final String username = extractUsername(token);
-	return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     private Claims extractAllClaims(String token) {
-	try {
-	    return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token.trim()).getBody();
-	} catch (DecodingException e) {
-	    logger.warning("Invalid token format: " + e.getMessage());
-	    throw e;
-	}
+        try {
+            return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token.trim()).getBody();
+        } catch (DecodingException e) {
+            logger.warning("Invalid token format: " + e.getMessage());
+            throw e;
+        }
     }
 
     private Key getSignInKey() {
-	byte[] keyBytes = Decoders.BASE64.decode(SECRET);
-	return Keys.hmacShaKeyFor(keyBytes);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     private boolean isTokenExpired(String token) {
-	return extractExpiration(token).before(new Date());
+	    return extractExpiration(token).before(new Date());
     }
 
     private Date extractExpiration(String token) {
-	return extractClaims(token, Claims::getExpiration);
+	    return extractClaims(token, Claims::getExpiration);
     }
 
     public List<String> extractRoles(String token) {
-	return extractClaims(token, claims -> (List<String>) claims.get("roles"));
+	    return extractClaims(token, claims -> (List<String>) claims.get("roles"));
     }
 }
