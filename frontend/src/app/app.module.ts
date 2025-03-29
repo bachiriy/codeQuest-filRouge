@@ -10,19 +10,20 @@ import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { authReducer } from './core/store/auth/auth.reducer';
 import { AuthEffects } from './core/store/auth/auth.effects';
-import { HeaderComponent } from './core/components/header/header.component';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
+import { challengesReducer } from './core/store/challenges/challenges.reducer';
+import { ChallengesEffects } from './core/store/challenges/challenges.effects';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
+  declarations: [AppComponent],
   imports: [
-    HeaderComponent,
+    NavbarComponent,
     BrowserModule,
     CommonModule,
     RouterModule.forRoot(routes),
-    StoreModule.forRoot({ auth: authReducer }),
-    EffectsModule.forRoot([AuthEffects]),
+    StoreModule.forRoot({ auth: authReducer, challenges: challengesReducer }),
+    EffectsModule.forRoot([AuthEffects, ChallengesEffects]),
     HttpClientModule,
     BrowserAnimationsModule
   ],

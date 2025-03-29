@@ -20,6 +20,7 @@ export interface Challenge {
   createdAt: Date
   completedBy: number
   successRate: number
+  tags?: string
 }
 
 export interface ChallengeSubmission {

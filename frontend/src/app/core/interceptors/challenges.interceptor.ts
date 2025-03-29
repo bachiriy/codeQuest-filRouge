@@ -3,9 +3,8 @@ import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { loadUserFailure } from '../store/auth/auth.actions';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
+export const challengeInterceptor: HttpInterceptorFn = (req, next) => {
   const store = inject(Store);
   
   return next(req).pipe(
@@ -17,7 +16,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       
       if (error.status === 401) {
         console.log('Unauthorized request, updating auth state');
-        store.dispatch(loadUserFailure({ error: 'Not authenticated' }));
       }
       
       return throwError(() => error);

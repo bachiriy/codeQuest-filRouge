@@ -1,3 +1,5 @@
+import { Role } from "./role.model"
+
 export interface User {
   id: number
   firstName: string
@@ -11,6 +13,7 @@ export interface User {
     rank: number
     xpPoints: number
     favoriteLanguage?: string
-  }
+  };
+  roles: Role[];
 }
 

@@ -6,11 +6,11 @@ import { guestGuard } from './core/guards/guest.guard';
 export const routes: Routes = [
   {
     path: '',
-    canActivate: [authCheckGuard],
+    // canActivate: [authCheckGuard],
     children: [
       {
         path: '',
-        loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent)
+        loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
       },
       {
         path: 'auth',

@@ -1,13 +1,17 @@
 import { Injectable } from "@angular/core"
-import { type Actions, createEffect, ofType } from "@ngrx/effects"
+import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { of } from "rxjs"
-import { exhaustMap } from "rxjs/operators"
+import { catchError, exhaustMap, map } from "rxjs/operators"
 import * as ChallengesActions from "./challenges.actions"
 import type { Challenge } from "../../models/challenge.model"
+import { ChallengeService } from "@app/core/services/challenge.service"
 
 @Injectable()
 export class ChallengesEffects {
-  constructor(private actions$: Actions) {}
+  constructor(
+    private actions$: Actions,
+    private challengeService: ChallengeService
+  ) {}
 
   // Mock data for challenges
   private mockChallenges: Challenge[] = [
@@ -178,15 +182,15 @@ export class ChallengesEffects {
     this.actions$.pipe(
       ofType(ChallengesActions.loadChallenges),
       exhaustMap(() => {
-        // Simulate API call
-        return of(
-          ChallengesActions.loadChallengesSuccess({
-            challenges: this.mockChallenges,
-          }),
-        )
-      }),
-    ),
-  )
+        return this.challengeService.getChallenges().pipe(
+          map(challenges => ChallengesActions.loadChallengesSuccess({ 
+            challenges: challenges || [] 
+          })),
+          catchError(error => of(ChallengesActions.loadChallengesFailure({ error })))
+        );
+      })
+    )
+  );
 
   loadChallenge$ = createEffect(() =>
     this.actions$.pipe(

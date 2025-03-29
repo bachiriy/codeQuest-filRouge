@@ -43,21 +43,22 @@ import { RouterModule } from "@angular/router"
                   <div class="ml-4 text-gray-400 text-sm">challenge.js</div>
                 </div>
                 <pre class="bg-[#0d1117] p-4 rounded-md text-sm overflow-auto text-gray-300 font-mono">
-<span class="text-purple-400">function</span> <span class="text-blue-400">twoSum</span>(<span class="text-orange-400">nums</span>, <span class="text-orange-400">target</span>) {
+<span class="text-purple-400">function</span> <span class="text-blue-400">twoSum</span>(<span class="text-orange-400">nums</span>, <span class="text-orange-400">target</span>) {{ '{' }}
   <span class="text-purple-400">const</span> <span class="text-orange-400">map</span> = <span class="text-purple-400">new</span> <span class="text-blue-400">Map</span>();
   
-  <span class="text-purple-400">for</span> (<span class="text-purple-400">let</span> <span class="text-orange-400">i</span> = <span class="text-green-400">0</span>; <span class="text-orange-400">i</span> < <span class="text-orange-400">nums</span>.length; <span class="text-orange-400">i</span>++) {
+  <span class="text-purple-400">for</span> (<span class="text-purple-400">let</span> <span class="text-orange-400">i</span> = <span class="text-green-400">0</span>; <span class="text-orange-400">i</span> < <span class="text-orange-400">nums</span>.length; <span class="text-orange-400">i</span>++) {{ '{' }}
     <span class="text-purple-400">const</span> <span class="text-orange-400">complement</span> = <span class="text-orange-400">target</span> - <span class="text-orange-400">nums</span>[<span class="text-orange-400">i</span>];
     
-    <span class="text-purple-400">if</span> (<span class="text-orange-400">map</span>.has(<span class="text-orange-400">complement</span>)) {
+    <span class="text-purple-400">if</span> (<span class="text-orange-400">map</span>.has(<span class="text-orange-400">complement</span>)) {{
       <span class="text-purple-400">return</span> [<span class="text-orange-400">map</span>.get(<span class="text-orange-400">complement</span>), <span class="text-orange-400">i</span>];
-    }
+    {{ '}' }}
     
     <span class="text-orange-400">map</span>.set(<span class="text-orange-400">nums</span>[<span class="text-orange-400">i</span>], <span class="text-orange-400">i</span>);
-  }
-  
+  {{ '}' }}
+
   <span class="text-purple-400">return</span> [];
-}
+{{ '}' }}
+
 
 <span class="text-green-400">// Test cases</span>
 console.<span class="text-blue-400">log</span>(twoSum([<span class="text-green-400">2</span>, <span class="text-green-400">7</span>, <span class="text-green-400">11</span>, <span class="text-green-400">15</span>], <span class="text-green-400">9</span>)); <span class="text-gray-500">// [0, 1]</span>

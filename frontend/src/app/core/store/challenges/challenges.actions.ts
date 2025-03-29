@@ -1,37 +1,59 @@
 import { createAction, props } from "@ngrx/store"
-import type { Challenge, ChallengeSubmission, ProgrammingLanguage } from "../../models/challenge.model"
+import type { 
+    Challenge,
+    ChallengeSubmission,
+    ProgrammingLanguage
+} from "../../models/challenge.model"
 
-export const loadChallenges = createAction("[Challenges] Load Challenges")
+export const loadChallenges = createAction(
+    "[Challenges] Load Challenges"
+)
 
 export const loadChallengesSuccess = createAction(
-  "[Challenges] Load Challenges Success",
-  props<{ challenges: Challenge[] }>(),
+    "[Challenges] Load Challenges Success",
+    props<{ challenges: Challenge[] }>(),
 )
 
-export const loadChallengesFailure = createAction("[Challenges] Load Challenges Failure", props<{ error: string }>())
+export const loadChallengesFailure = createAction(
+    "[Challenges] Load Challenges Failure",
+    props<{ error: string }>()
+)
 
-export const loadChallenge = createAction("[Challenges] Load Challenge", props<{ id: number }>())
+export const loadChallenge = createAction(
+    "[Challenges] Load Challenge",
+    props<{ id: number }>()
+)
 
 export const loadChallengeSuccess = createAction(
-  "[Challenges] Load Challenge Success",
-  props<{ challenge: Challenge }>(),
+    "[Challenges] Load Challenge Success",
+    props<{ challenge: Challenge }>(),
 )
 
-export const loadChallengeFailure = createAction("[Challenges] Load Challenge Failure", props<{ error: string }>())
+export const loadChallengeFailure = createAction(
+    "[Challenges] Load Challenge Failure",
+    props<{ error: string }>()
+)
 
 export const submitSolution = createAction(
-  "[Challenges] Submit Solution",
-  props<{
-    challengeId: number
-    code: string
-    language: ProgrammingLanguage
-  }>(),
+    "[Challenges] Submit Solution",
+    props<{
+        challengeId: number
+        code: string
+        language: ProgrammingLanguage
+    }>(),
 )
 
 export const submitSolutionSuccess = createAction(
-  "[Challenges] Submit Solution Success",
-  props<{ submission: ChallengeSubmission }>(),
+    "[Challenges] Submit Solution Success",
+    props<{ submission: ChallengeSubmission }>(),
 )
 
-export const submitSolutionFailure = createAction("[Challenges] Submit Solution Failure", props<{ error: string }>())
+export const submitSolutionFailure = createAction(
+    "[Challenges] Submit Solution Failure",
+    props<{ error: string }>()
+)
 
+export const addChallenge = createAction(
+    "[Challenges] Add Challenge",
+    props<{ challenge: Challenge }>(),
+)

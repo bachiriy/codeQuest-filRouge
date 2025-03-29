@@ -23,19 +23,24 @@ export class AuthService {
     if (error.error?.message) {
       return throwError(() => error.error.message);
     }
+    if (error?.message) {
+      return throwError(() => error.message);
+    }
     return throwError(() => 'An unexpected error occurred');
   }
 
   login(email: string, password: string): Observable<User> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, 
+    return this.http.post<User>(`${this.apiUrl}/auth/login`, 
       { email, password },
       { withCredentials: true }
     ).pipe(
       map(response => {
-        if (!response?.user) {
-          throw new Error('Invalid response format');
+        if (response === null || response.id === null) {
+          throw new Error('ERROR Loggin in');
         }
-        return response.user;
+        
+        this.setAuthData(response);
+        return response;
       }),
       catchError(this.handleError)
     );
@@ -49,12 +54,12 @@ export class AuthService {
       password
     }).pipe(
       tap(response => {
-        if (response.authenticated && response.user) {
+        if (response.user) {
           this.setAuthData(response.user);
         }
       }),
       map(response => {
-        if (!response.authenticated || !response.user) {
+        if (response.user === null) {
           throw new Error('Registration failed');
         }
         return response.user;
@@ -72,41 +77,8 @@ export class AuthService {
     );
   }
 
-  checkAuthStatus(): Observable<User> {
-    // First check localStorage
-    const storedAuth = this.getAuthData();
-    if (storedAuth) {
-      // Verify with server but return cached user immediately
-      return this.verifyWithServer().pipe(
-        catchError(() => of(storedAuth)) // Fallback to cached data if server fails
-      );
-    }
-    
-    // No cached data - do full server verification
-    return this.verifyWithServer();
-  }
-
-  private verifyWithServer(): Observable<User> {
-    return this.http.get<AuthResponse>(`${this.apiUrl}/auth/verify`).pipe(
-      tap(response => {
-        if (response.authenticated && response.user) {
-          this.setAuthData(response.user);
-        } else {
-          this.clearAuthData();
-        }
-      }),
-      map(response => {
-        if (!response.authenticated || !response.user) {
-          this.clearAuthData();
-          throw new Error('Not authenticated');
-        }
-        return response.user;
-      }),
-      catchError(error => {
-        this.clearAuthData();
-        return throwError(() => 'Not authenticated');
-      })
-    );
+  checkAuthStatus(): Observable<User | null> {
+    return of(this.getAuthData());
   }
 
   getProfile(): Observable<any> {
@@ -131,4 +103,14 @@ export class AuthService {
   getCurrentUser(): User | null {
     return this.getAuthData();
   }
+
+  hasRole(roleName: string): Observable<boolean> {
+    return this.checkAuthStatus().pipe(
+      map(user => {
+        if (!user || !user.roles) return false;
+        return user.roles.some(role => role.name === roleName);
+      })
+    );
+  }
+
 }

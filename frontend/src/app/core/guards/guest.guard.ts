@@ -15,7 +15,10 @@ export const guestGuard: CanActivateFn = (route, state) => {
       if (!user) {
         return true;
       }
-      return router.createUrlTree(['/dashboard']);
+      if(user.roles[0].name === 'ROLE_ADMIN') {
+          return router.createUrlTree(['/dashboard']);
+      }
+      return router.createUrlTree(['/x']);
     }),
     catchError(() => {
       return of(true);

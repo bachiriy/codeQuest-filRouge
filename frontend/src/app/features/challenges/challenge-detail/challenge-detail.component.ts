@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common"
 import { ActivatedRoute } from "@angular/router"
 import { FormsModule } from "@angular/forms"
 import { Store } from "@ngrx/store"
-import type { Observable } from "rxjs"
+import { of, type Observable } from "rxjs"
 import type { Challenge, ProgrammingLanguage } from "../../../core/models/challenge.model"
 import { loadChallenge, submitSolution } from "../../../core/store/challenges/challenges.actions"
 import {
@@ -211,7 +211,35 @@ import { CodeEditorComponent } from "../code-editor/code-editor.component"
   `,
 })
 export class ChallengeDetailComponent implements OnInit {
-  challenge$: Observable<Challenge | null>
+    // TODO: load the actuall test & make a good editor maybe (or not actually idk)
+  challenge$: Observable<Challenge | null> = of({
+      id: 1,
+      title: "Two Sum",
+      description:
+        "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice.",
+      difficulty: "Easy",
+      category: "Arrays",
+      points: 100,
+      supportedLanguages: ["Java", "Python", "JavaScript", "C++"],
+      testCases: [
+        {
+          id: 1,
+          input: "[2,7,11,15], target = 9",
+          expectedOutput: "[0,1]",
+          isHidden: false,
+        },
+        {
+          id: 2,
+          input: "[3,2,4], target = 6",
+          expectedOutput: "[1,2]",
+          isHidden: false,
+        },
+      ],
+      createdAt: new Date("2023-01-10"),
+      completedBy: 1250,
+      successRate: 75.3,
+    })
+
   loading$: Observable<boolean>
   submissions$: Observable<any[]>
 
@@ -224,7 +252,7 @@ export class ChallengeDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private store: Store,
   ) {
-    this.challenge$ = this.store.select(selectSelectedChallenge)
+    // this.challenge$ = this.store.select(selectSelectedChallenge)
     this.loading$ = this.store.select(selectChallengesLoading)
     this.submissions$ = this.store.select(selectSubmissions)
   }
