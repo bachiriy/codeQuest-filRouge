@@ -78,5 +78,24 @@ export const challengesReducer = createReducer(
     loading: false,
     error,
   })),
+
+  on(ChallengesActions.createChallenge, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  
+  on(ChallengesActions.createChallengeSuccess, (state, { challenge }) => ({
+    ...state,
+    loading: false,
+    challenges: [...state.challenges, challenge], // Add new challenge to the list
+    error: null
+  })),
+  
+  on(ChallengesActions.createChallengeFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
 )
 

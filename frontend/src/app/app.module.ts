@@ -14,6 +14,7 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { challengesReducer } from './core/store/challenges/challenges.reducer';
 import { ChallengesEffects } from './core/store/challenges/challenges.effects';
+import { leaderboardReducer } from './core/store/leaderboard/leaderboard.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,11 @@ import { ChallengesEffects } from './core/store/challenges/challenges.effects';
     BrowserModule,
     CommonModule,
     RouterModule.forRoot(routes),
-    StoreModule.forRoot({ auth: authReducer, challenges: challengesReducer }),
+    StoreModule.forRoot({ 
+        auth: authReducer,
+        challenges: challengesReducer,
+        leaderboard: leaderboardReducer
+    }),
     EffectsModule.forRoot([AuthEffects, ChallengesEffects]),
     HttpClientModule,
     BrowserAnimationsModule

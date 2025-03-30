@@ -53,7 +53,17 @@ export const submitSolutionFailure = createAction(
     props<{ error: string }>()
 )
 
-export const addChallenge = createAction(
-    "[Challenges] Add Challenge",
-    props<{ challenge: Challenge }>(),
-)
+export const createChallenge = createAction(
+  '[Challenges] Create Challenge',
+  props<{ challengeData: Omit<Challenge, 'id'> }>() // Exclude id since backend generates it
+);
+
+export const createChallengeSuccess = createAction(
+  '[Challenges] Create Challenge Success',
+  props<{ challenge: Challenge }>() // Includes the backend-generated id
+);
+
+export const createChallengeFailure = createAction(
+  '[Challenges] Create Challenge Failure',
+  props<{ error: string }>()
+);

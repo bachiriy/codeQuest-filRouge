@@ -1,10 +1,14 @@
-export type Difficulty = "Easy" | "Medium" | "Hard"
-export type ProgrammingLanguage = "Java" | "Python" | "JavaScript" | "C++" | "C#" | "Ruby" | "Go"
+export type Difficulty = "EASY" | "MEDIUM" | "HARD" | "EXPERT";
+
+export type ProgrammingLanguage = 
+    "Java" | "Python" | 
+    "JavaScript" | "C++" | 
+    "C#" | "Ruby" | "Go";
 
 export interface TestCase {
   id: number
   input: string
-  expectedOutput: string
+  expected_output: string
   isHidden: boolean
 }
 
@@ -33,5 +37,11 @@ export interface ChallengeSubmission {
   executionTime: number
   memoryUsed: number
   submittedAt: Date
+}
+
+export interface TestCaseForm {
+  input: string;
+  expected_output: string;
+  is_hidden: boolean;
 }
 

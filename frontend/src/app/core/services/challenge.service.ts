@@ -6,7 +6,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ChallengeService {
     private apiUrl = environment.apiUrl;
@@ -26,9 +26,19 @@ export class ChallengeService {
     }
 
     getChallenges(): Observable<Challenge[]> {
-      return this.http.get<Challenge[]>(`${this.apiUrl}/user/challenges`).pipe(
-        map(response => response || []), // Convert null/undefined to empty array
-        catchError(this.handleError)
-      );
+        return this.http.get<Challenge[]>(`${this.apiUrl}/user/challenges`).pipe(
+            map(response => response || []), 
+                catchError(this.handleError)
+        );
+    }
+    createChallenge(challenge: Omit<Challenge, 'id'>): Observable<Challenge> {
+        return this.http.post<Challenge>(`${this.apiUrl}/user/challenges`, challenge).pipe(
+            tap((createdChallenge) => console.log('Created challenge:', createdChallenge)),
+                catchError(this.handleError)
+        );
+    }
+
+    getChallengeById(id: number): Observable<Challenge> {
+        return this.http.get<Challenge>(`${this.apiUrl}/user/challenges/${id}`);
     }
 }
