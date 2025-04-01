@@ -28,7 +28,8 @@
       "@features/*": ["src/app/features/*"],
       "@shared/*": ["src/app/shared/*"],
       "@env/*": ["src/environments/*"]
-    }
+    },
+    "types": ["monaco-editor"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

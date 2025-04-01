@@ -67,3 +67,8 @@ export const createChallengeFailure = createAction(
   '[Challenges] Create Challenge Failure',
   props<{ error: string }>()
 );
+
+export const runTests = createAction(
+  '[Challenges] Run Tests',
+  props<{ challengeId: number; code: string, language: ProgrammingLanguage }>()
+);

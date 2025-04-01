@@ -1,91 +1,120 @@
-import { Component, Input, Output, EventEmitter, ViewChild, type ElementRef, type AfterViewInit } from "@angular/core"
-import { CommonModule } from "@angular/common"
-
-declare var monaco: any
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, Input, forwardRef, ViewChild, ElementRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormsModule } from '@angular/forms';
+import loader from '@monaco-editor/loader';
 
 @Component({
-  selector: "app-code-editor",
+  selector: 'app-code-editor',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div #editorContainer [style.height]="height" [style.width]="width" class="border-gray-700"></div>
-  `,
+  template: `<div class="monaco-editor" #editorContainer></div>`,
+  styles: [`
+    .monaco-editor {
+      width: 100%;
+      height: 100%;
+      min-height: 300px;
+    }
+  `],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => CodeEditorComponent),
+    multi: true
+  }],
+  imports: [CommonModule, FormsModule]
 })
-export class CodeEditorComponent implements AfterViewInit {
-  @ViewChild("editorContainer") editorContainer!: ElementRef
-  @Input() code = ""
-  @Input() language = "javascript"
-  @Input() theme: "dark" | "light" = "dark"
-  @Input() height = "400px"
-  @Input() width = "100%"
+export class CodeEditorComponent implements OnInit, OnDestroy, ControlValueAccessor {
+  @Input() language: string = 'javascript';
+  @Input() theme: string = 'vs-dark';
+  @Input() height: string = '500px';
+  @ViewChild('editorContainer', { static: true }) editorContainerRef!: ElementRef;
+  
+  private editor: any;
+  private _value: string = '';
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
+  private resizeObserver: ResizeObserver;
 
-  @Output() codeChange = new EventEmitter<string>()
-
-  private editor: any
-
-  ngAfterViewInit(): void {
-    // This is a simplified version since we can't actually load Monaco editor in this example
-    // In a real application, you would need to load Monaco editor via a script tag or a library like ngx-monaco-editor
-
-    // Simulating editor initialization
-    setTimeout(() => {
-      this.initMonaco()
-    }, 100)
+  constructor() {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.editor?.layout();
+    });
   }
 
-  private initMonaco(): void {
-    // In a real implementation, this would initialize Monaco editor
-    // For now, we'll create a simple textarea as a placeholder
-    const container = this.editorContainer.nativeElement
-    const textarea = document.createElement("textarea")
-    textarea.value = this.code
-    textarea.classList.add(
-      "w-full",
-      "h-full",
-      "p-4",
-      "bg-[#0d1117]",
-      "text-gray-300",
-      "font-mono",
-      "text-sm",
-      "focus:outline-none",
-    )
-    textarea.placeholder = "Write your code here..."
-    container.appendChild(textarea)
-
-    // Listen for changes
-    textarea.addEventListener("input", () => {
-      this.code = textarea.value
-      this.codeChange.emit(this.code)
-    })
-
-    // Simulate editor instance
-    this.editor = {
-      getValue: () => textarea.value,
-      setValue: (value: string) => {
-        textarea.value = value
-      },
-      layout: () => {},
-      dispose: () => {
-        container.innerHTML = ""
-      },
-    }
-  }
-
-  ngOnChanges(): void {
-    if (this.editor) {
-      // Update editor content when code input changes
-      if (this.editor.getValue() !== this.code) {
-        this.editor.setValue(this.code)
-      }
-
-      // In a real implementation, you would update language and theme here
-    }
+  async ngOnInit(): Promise<void> {
+    await this.loadMonaco();
+    this.initializeEditor();
+    this.resizeObserver.observe(this.editorContainerRef.nativeElement);
   }
 
   ngOnDestroy(): void {
+    this.resizeObserver.disconnect();
     if (this.editor) {
-      this.editor.dispose()
+      this.editor.dispose();
     }
   }
-}
 
+  private async loadMonaco(): Promise<void> {
+    await loader.init();
+    // Configure Monaco paths
+    (window as any).MonacoEnvironment = {
+      getWorkerUrl: (moduleId: string, label: string) => {
+        if (label === 'typescript' || label === 'javascript') {
+          return './assets/monaco-editor/min/vs/language/typescript/ts.worker.js';
+        }
+        return './assets/monaco-editor/min/vs/editor/editor.worker.js';
+      }
+    };
+  }
+
+  private initializeEditor(): void {
+    const monaco = (window as any).monaco;
+    const container = this.editorContainerRef.nativeElement;
+    container.style.height = this.height;
+
+    this.editor = monaco.editor.create(container, {
+      value: this._value,
+      language: this.language,
+      theme: this.theme,
+      automaticLayout: true,
+      minimap: { enabled: true },
+      scrollBeyondLastLine: false,
+      fontSize: 14,
+      lineNumbers: 'on',
+      roundedSelection: true,
+      scrollbar: {
+        vertical: 'auto',
+        horizontal: 'auto'
+      },
+      readOnly: false,
+      glyphMargin: true,
+      renderWhitespace: 'selection'
+    });
+
+    this.editor.onDidChangeModelContent(() => {
+      const value = this.editor.getValue();
+      this._value = value;
+      this.onChange(value);
+      this.onTouched();
+    });
+  }
+
+  // ControlValueAccessor implementation
+  writeValue(value: string): void {
+    this._value = value || '';
+    if (this.editor) {
+      this.editor.setValue(this._value);
+    }
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  // Method to get the editor instance
+  getEditor(): any {
+    return this.editor;
+  }
+}

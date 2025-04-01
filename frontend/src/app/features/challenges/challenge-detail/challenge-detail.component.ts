@@ -5,13 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Challenge, ProgrammingLanguage } from '../../../core/models/challenge.model';
-import { loadChallenge, submitSolution } from '../../../core/store/challenges/challenges.actions';
+import { loadChallenge, runTests, submitSolution } from '../../../core/store/challenges/challenges.actions';
 import { 
   selectSelectedChallenge,
   selectChallengesLoading,
   selectSubmissions
 } from '../../../core/store/challenges/challenges.selectors';
 import { CodeEditorComponent } from '../code-editor/code-editor.component';
+import { MonacoEditorTheme } from '../../../core/models/editor.model';
 
 @Component({
   selector: 'app-challenge-detail',
@@ -25,9 +26,10 @@ export class ChallengeDetailComponent implements OnInit {
   submissions$: Observable<any[]>;
 
   selectedLanguage: ProgrammingLanguage = 'JavaScript';
-  editorTheme: 'dark' | 'light' = 'dark';
+  editorTheme: MonacoEditorTheme = 'vs-dark';
   code = '';
   isSubmitting = false;
+  editorReady = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,15 +48,12 @@ export class ChallengeDetailComponent implements OnInit {
       }
     });
 
-    // Update code template when language changes
     this.challenge$.subscribe(challenge => {
       if (challenge) {
         this.selectedLanguage = challenge.supportedLanguages[0];
         this.setCodeTemplate();
       }
     });
-    console.log(this.challenge$);
-    
   }
 
   getVisibleTestCases(challenge: Challenge) {
@@ -75,48 +74,29 @@ export class ChallengeDetailComponent implements OnInit {
       language: this.selectedLanguage
     }));
 
-    // Reset submission state after completion (you might want to do this in an effect instead)
-    setTimeout(() => {
-      this.isSubmitting = false;
-    }, 2000);
+    // Handle submission completion in effects instead
   }
 
-  private setCodeTemplate() {
+  onRunTests(challengeId: number) {
+    if (!this.code.trim()) return;
+
+    this.isSubmitting = true;
+    this.store.dispatch(runTests({
+      challengeId,
+      code: this.code,
+      language: this.selectedLanguage
+    }));
+  }
+
+  public setCodeTemplate() {
     const templates: Record<ProgrammingLanguage, string> = {
-      'JavaScript': `function solution(input) {
-    // Your code here
-    return result;
-  }`,
-      'Python': `def solution(input):
-      # Your code here
-      return result`,
-      'Java': `public class Solution {
-      public int[] solution(int[] input) {
-          // Your code here
-          return result;
-      }
-  }`,
-      'C++': `class Solution {
-  public:
-      vector<int> solution(vector<int>& input) {
-          // Your code here
-          return result;
-      }
-  };`,
-      'C#': `public class Solution {
-      public int[] Solution(int[] input) {
-          // Your code here
-          return result;
-      }
-  }`,
-      'Ruby': `def solution(input)
-    # Your code here
-    result
-  end`,
-      'Go': `func solution(input []int) []int {
-      // Your code here
-      return result
-  }`
+      'JavaScript': `function solution(input) {\n  // Your code here\n  return result;\n}`,
+      'Python': `def solution(input):\n    # Your code here\n    return result`,
+      'Java': `public class Solution {\n    public int[] solution(int[] input) {\n        // Your code here\n        return result;\n    }\n}`,
+      'C++': `class Solution {\npublic:\n    vector<int> solution(vector<int>& input) {\n        // Your code here\n        return result;\n    }\n};`,
+      'C#': `public class Solution {\n    public int[] Solution(int[] input) {\n        // Your code here\n        return result;\n    }\n}`,
+      'Ruby': `def solution(input)\n    # Your code here\n    result\nend`,
+      'Go': `func solution(input []int) []int {\n    // Your code here\n    return result\n}`
     };
   
     this.code = templates[this.selectedLanguage] || '// Write your solution here';
