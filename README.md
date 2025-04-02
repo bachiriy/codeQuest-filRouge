@@ -169,3 +169,6 @@ For any questions or suggestions, please feel free to reach out:
 [Caher De Charge link](https://docs.google.com/document/d/1WXUcc49OpQ-MZNlmTE7ZIOJzDN2WA0uzX78XgBRN6Wg/edit?usp=sharing)
 ### Jira 
 [Jira Link](https://mohammedelbachiri945.atlassian.net/jira/software/projects/CQ/list?atlOrigin=eyJpIjoiZThmMWY3MGU2NTlhNDI1MmIwOWVkNTBmNmZkMmMzMjgiLCJwIjoiaiJ9)
+
+### Presentation 
+<a href="http://canva.com" target="_blank">Canva Link</a>
