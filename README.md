@@ -171,4 +171,4 @@ For any questions or suggestions, please feel free to reach out:
 [Jira Link](https://mohammedelbachiri945.atlassian.net/jira/software/projects/CQ/list?atlOrigin=eyJpIjoiZThmMWY3MGU2NTlhNDI1MmIwOWVkNTBmNmZkMmMzMjgiLCJwIjoiaiJ9)
 
 ### Presentation 
-<a href="http://canva.com" target="_blank">Canva Link</a>
+[Canva Link](https://www.canva.com/design/DAGjejgXl1o/-fvaDfpFpGip2_uAVQr1Qg/edit?utm_content=DAGjejgXl1o&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
