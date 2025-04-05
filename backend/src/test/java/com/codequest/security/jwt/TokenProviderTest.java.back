@@ -1,0 +1,96 @@
+package com.codequest.security.jwt;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.util.ReflectionTestUtils;
+
+@ExtendWith(MockitoExtension.class)
+public class TokenProviderTest {
+
+    @InjectMocks
+    private TokenProvider tokenProvider;
+
+    @Mock
+    private UserDetails userDetails;
+
+    private static final String SECRET = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
+    private static final int EXPIRATION = 86400000; // 24 hours
+
+    @BeforeEach
+    void setUp() {
+        ReflectionTestUtils.setField(tokenProvider, "SECRET", SECRET);
+        ReflectionTestUtils.setField(tokenProvider, "EXPIRATION", EXPIRATION);
+    }
+
+    @Test
+    void whenGenerateToken_thenSuccessful() {
+        // Arrange
+        String username = "testuser";
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        
+        when(userDetails.getUsername()).thenReturn(username);
+        when(userDetails.getAuthorities()).thenReturn(authorities);
+
+        // Act
+        String token = tokenProvider.generateToken(userDetails);
+
+        // Assert
+        assertNotNull(token);
+        assertEquals(username, tokenProvider.extractUsername(token));
+        assertTrue(tokenProvider.validateToken(token, userDetails));
+    }
+
+    @Test
+    void whenExtractRoles_thenCorrectRoles() {
+        // Arrange
+        String username = "testuser";
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        
+        when(userDetails.getUsername()).thenReturn(username);
+        when(userDetails.getAuthorities()).thenReturn(authorities);
+
+        // Act
+        String token = tokenProvider.generateToken(userDetails);
+        List<String> roles = tokenProvider.extractRoles(token);
+
+        // Assert
+        assertNotNull(roles);
+        assertEquals(2, roles.size());
+        assertTrue(roles.contains("ROLE_USER"));
+        assertTrue(roles.contains("ROLE_ADMIN"));
+    }
+
+    @Test
+    void whenTokenExpired_thenValidationFails() {
+        // Arrange
+        String username = "testuser";
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        when(userDetails.getUsername()).thenReturn(username);
+        when(userDetails.getAuthorities()).thenReturn(authorities);
+        
+        // Set a very short expiration for this test
+        ReflectionTestUtils.setField(tokenProvider, "EXPIRATION", -1000); // Set to past
+        
+        String token = tokenProvider.generateToken(userDetails);
+
+        // Assert
+        assertFalse(tokenProvider.validateToken(token, userDetails));
+    }
+} 

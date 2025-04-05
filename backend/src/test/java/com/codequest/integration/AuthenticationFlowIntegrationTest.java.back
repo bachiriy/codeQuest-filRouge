@@ -1,0 +1,97 @@
+package com.codequest.integration;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import com.codequest.entity.User;
+import com.codequest.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+public class AuthenticationFlowIntegrationTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private static final String TEST_USERNAME = "testuser";
+    private static final String TEST_PASSWORD = "password123";
+
+    @BeforeEach
+    void setUp() {
+        userRepository.deleteAll();
+        
+        User user = new User();
+        user.setUsername(TEST_USERNAME);
+        user.setPassword(passwordEncoder.encode(TEST_PASSWORD));
+        user.setEmail("test@example.com");
+        userRepository.save(user);
+    }
+
+    @Test
+    void whenValidLogin_thenReturnsToken() throws Exception {
+        // Arrange
+        LoginRequest loginRequest = new LoginRequest(TEST_USERNAME, TEST_PASSWORD);
+
+        // Act
+        ResultActions result = mockMvc.perform(post("/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginRequest)));
+
+        // Assert
+        result.andExpect(status().isOk())
+              .andExpect(jsonPath("$.token").exists())
+              .andExpect(jsonPath("$.username").value(TEST_USERNAME));
+    }
+
+    @Test
+    void whenInvalidLogin_thenReturnsUnauthorized() throws Exception {
+        // Arrange
+        LoginRequest loginRequest = new LoginRequest(TEST_USERNAME, "wrongpassword");
+
+        // Act & Assert
+        mockMvc.perform(post("/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    // Helper class for login requests
+    private static class LoginRequest {
+        private String username;
+        private String password;
+
+        public LoginRequest(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        // Getters and setters
+        public String getUsername() { return username; }
+        public void setUsername(String username) { this.username = username; }
+        public String getPassword() { return password; }
+        public void setPassword(String password) { this.password = password; }
+    }
+} 
